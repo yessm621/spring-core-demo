@@ -3,10 +3,8 @@ package com.study.core;
 import com.study.core.member.Grade;
 import com.study.core.member.Member;
 import com.study.core.member.MemberService;
-import com.study.core.member.MemberServiceImpl;
 import com.study.core.order.Order;
 import com.study.core.order.OrderService;
-import com.study.core.order.OrderServiceImpl;
 
 
 public class OrderApp {
@@ -17,8 +15,9 @@ public class OrderApp {
      * 이를 개선하기 위해 OrderServiceTest 에 작성
      */
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
-        OrderService orderService = new OrderServiceImpl();
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
 
         long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
