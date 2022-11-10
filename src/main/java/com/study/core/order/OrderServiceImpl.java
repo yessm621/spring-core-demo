@@ -2,6 +2,7 @@ package com.study.core.order;
 
 import com.study.core.discount.DiscountPolicy;
 import com.study.core.discount.FixDiscountPolicy;
+import com.study.core.discount.RateDiscountPolicy;
 import com.study.core.member.Member;
 import com.study.core.member.MemberRepository;
 import com.study.core.member.MemoryMemberRepository;
@@ -9,7 +10,13 @@ import com.study.core.member.MemoryMemberRepository;
 public class OrderServiceImpl implements OrderService {
 
     private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    /**
+     * 새로운 정책으로 변경하기 위해 구현체를 변경해야 함.
+     * 역할과 구현을 분리했음. 즉, 다형성을 활용하고 인터페이스와 구현 객체를 분리했음 (interface, **Impl)
+     * OCP, DIP 원칙을 준수한 것처럼 보이지만 그렇지 않음.
+     */
+    //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
