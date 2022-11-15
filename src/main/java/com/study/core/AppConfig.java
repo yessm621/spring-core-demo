@@ -31,7 +31,7 @@ public class AppConfig {
 
     @Bean
     public MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
+        return MemoryMemberRepository.getInstance();
     }
 
     @Bean

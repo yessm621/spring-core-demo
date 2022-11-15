@@ -46,12 +46,12 @@ public class ApplicationContextSameBeanFindTest {
     static class SameBeanConfig {
         @Bean
         public MemberRepository memberRepository1() {
-            return new MemoryMemberRepository();
+            return MemoryMemberRepository.getInstance();
         }
 
         @Bean
         public MemberRepository memberRepository2() {
-            return new MemoryMemberRepository();
+            return MemoryMemberRepository.getInstance();
         }
     }
 }
