@@ -8,7 +8,9 @@ import com.study.core.member.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -70,5 +72,27 @@ public class SingletonTest {
         System.out.println("memberService2 = " + memberService2);
 
         assertThat(memberService1).isSameAs(memberService2);
+    }
+
+    @Test
+    @DisplayName("stateful 하게 설계할 경우 생기는 문제")
+    void statefulServiceSingleton() {
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(TestConfig.class);
+        StatefulService statefulService1 = ac.getBean("statefulService", StatefulService.class);
+        StatefulService statefulService2 = ac.getBean("statefulService", StatefulService.class);
+
+        statefulService1.order("userA", 10000);
+        statefulService2.order("userB", 20000);
+
+        // 10000을 기대했지만 20000, price 를 stateful 하게 작성했기 떄문
+        assertThat(statefulService1.getPrice()).isEqualTo(20000);
+        assertThat(statefulService2.getPrice()).isEqualTo(20000);
+    }
+
+    static class TestConfig{
+        @Bean
+        public StatefulService statefulService() {
+            return new StatefulService();
+        }
     }
 }
