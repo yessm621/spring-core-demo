@@ -1,10 +1,8 @@
 package com.study.core.singleton;
 
 import com.study.core.AppConfig;
-import com.study.core.member.Grade;
-import com.study.core.member.Member;
-import com.study.core.member.MemberRepository;
-import com.study.core.member.MemberService;
+import com.study.core.member.*;
+import com.study.core.order.OrderServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -94,5 +92,20 @@ public class SingletonTest {
         public StatefulService statefulService() {
             return new StatefulService();
         }
+    }
+
+    @Test
+    void configurationTest() {
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberServiceImpl memberService = ac.getBean("memberService", MemberServiceImpl.class);
+        OrderServiceImpl orderService = ac.getBean("orderService", OrderServiceImpl.class);
+        MemberRepository memberRepository = ac.getBean("memberRepository", MemberRepository.class);
+
+        System.out.println("memberService = " + memberService.getMemberRepository());
+        System.out.println("orderService = " + orderService.getMemberRepository());
+        System.out.println("memberRepository = " + memberRepository);
+
+        assertThat(memberService.getMemberRepository()).isSameAs(memberRepository);
+        assertThat(orderService.getMemberRepository()).isSameAs(memberRepository);
     }
 }
