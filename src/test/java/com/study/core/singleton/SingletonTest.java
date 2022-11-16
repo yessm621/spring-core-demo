@@ -1,16 +1,17 @@
 package com.study.core.singleton;
 
 import com.study.core.AppConfig;
-import com.study.core.member.*;
+import com.study.core.member.MemberRepository;
+import com.study.core.member.MemberService;
+import com.study.core.member.MemberServiceImpl;
 import com.study.core.order.OrderServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SingletonTest {
 
@@ -87,7 +88,7 @@ public class SingletonTest {
         assertThat(statefulService2.getPrice()).isEqualTo(20000);
     }
 
-    static class TestConfig{
+    static class TestConfig {
         @Bean
         public StatefulService statefulService() {
             return new StatefulService();
@@ -107,5 +108,14 @@ public class SingletonTest {
 
         assertThat(memberService.getMemberRepository()).isSameAs(memberRepository);
         assertThat(orderService.getMemberRepository()).isSameAs(memberRepository);
+    }
+
+    @Test
+    void configurationDeep() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        // AppConfig 도 스프링 빈으로 등록된다.
+        AppConfig bean = ac.getBean(AppConfig.class);
+        System.out.println("bean = " + bean.getClass());
+        //출력: bean = class hello.core.AppConfig$$EnhancerBySpringCGLIB$$bd479d70
     }
 }
