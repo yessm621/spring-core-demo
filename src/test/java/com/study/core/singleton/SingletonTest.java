@@ -96,21 +96,6 @@ public class SingletonTest {
     }
 
     @Test
-    void configurationTest() {
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-        MemberServiceImpl memberService = ac.getBean("memberService", MemberServiceImpl.class);
-        OrderServiceImpl orderService = ac.getBean("orderService", OrderServiceImpl.class);
-        MemberRepository memberRepository = ac.getBean("memberRepository", MemberRepository.class);
-
-        System.out.println("memberService = " + memberService.getMemberRepository());
-        System.out.println("orderService = " + orderService.getMemberRepository());
-        System.out.println("memberRepository = " + memberRepository);
-
-        assertThat(memberService.getMemberRepository()).isSameAs(memberRepository);
-        assertThat(orderService.getMemberRepository()).isSameAs(memberRepository);
-    }
-
-    @Test
     void configurationDeep() {
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         // AppConfig 도 스프링 빈으로 등록된다.

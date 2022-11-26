@@ -1,9 +1,10 @@
 package com.study.core.member;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     // 의존관계가 인터페이스 뿐만 아니라 구현체까지 의존하고 있어 OCP, DIP 원칙을 지키지 못하고 있다.
@@ -11,15 +12,6 @@ public class MemberServiceImpl implements MemberService {
     // DIP: 의존관계 역전 원칙, 구현체에 의존하지 말고 인터페이스에 의존해야 함.
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
     private final MemberRepository memberRepository;
-
-    public MemberRepository getMemberRepository() {
-        return memberRepository;
-    }
-
-    @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
 
     @Override
     public void join(Member member) {
